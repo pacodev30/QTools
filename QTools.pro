@@ -11,17 +11,18 @@ CONFIG += c++17
 SOURCES += \
     FileTest.cpp \
     FileUtility.cpp \
-    JsonManager.cpp \
     main.cpp \
     MainWindow.cpp
 
 HEADERS += \
     FileTest.h \
     FileUtility.h \
-    JsonManager.h \
     MainWindow.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    ressources.qrc
