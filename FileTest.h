@@ -35,12 +35,12 @@ private:
     void compareFiles();
 
     QVBoxLayout *_vBox = nullptr;
-    QLabel *_resultLabel = nullptr;
-    QString _path;
-    QString _result;
-    QString _ext1, _ext2, _ext3;
+    QLabel      *_resultLabel = nullptr;
     QStringList _listOk;
     QStringList _listNok;
     QStringList _filePaths;
+    QString     _ext1, _ext2, _ext3;
+    QString     _path;
+    QString     _result;
     QMap<QString,QStringList> _fileGroups;
 };

@@ -29,7 +29,7 @@ void FileTest::resultToPrint()
     _result = "-- VERIFICATION DU REPERTOIRE : " + _path + " --\n";
     if(!_listOk.isEmpty())
     {
-        _result += "\n- Fichiers ok :\n";
+        _result += "\n- Pièces complètes :\n";
 
         for(const QString &ok : std::as_const(_listOk))
         {
@@ -39,7 +39,7 @@ void FileTest::resultToPrint()
 
     if(!_listNok.isEmpty())
     {
-        _result += "\n- Fichiers Nok :\n";
+        _result += "\n- Pièces incomplètes :\n";
         for(const QString &nOK : std::as_const(_listNok))
         {
             _result += nOK + "\n";

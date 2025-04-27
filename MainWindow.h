@@ -6,6 +6,7 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QMenuBar>
+#include <QToolBar>
 
 class MainWindow : public QMainWindow
 {
@@ -70,5 +71,6 @@ private:
     QVBoxLayout *_mainLayout = nullptr;
 
     QMenu       *_fileMenu = nullptr;
+    QToolBar    *_toolbar = nullptr;
     QAction     *_quitAction = nullptr;
 };

@@ -24,6 +24,7 @@ void MainWindow::onBrowseBtn_clicked()
     {
         _pathEdit->setText(_path);
         _openFolderBtn->setHidden(false);
+        _verifyBtn->setHidden(false);
     }
 }
 
@@ -51,7 +52,6 @@ void MainWindow::onSaveBtn_clicked()
 
 void MainWindow::onOpenFolderBtn_clicked()
 {
-    qDebug() << _path;
     QDesktopServices::openUrl(QUrl(_path));
 }
 
@@ -66,6 +66,7 @@ void MainWindow::initialize()
         _pathEdit->setPlaceholderText(tr("... lien du répertoire"));
     _browseBtn = new QPushButton(tr("Explorer"), this);
     _verifyBtn = new QPushButton(tr("Verifier le répertoire"), this);
+        _verifyBtn->setHidden(true);
     _resultLabel = new QLabel(this);
     _openFolderBtn = new QPushButton(tr("Ouvrir le répertoire"), this);
         _openFolderBtn->setHidden(true);
@@ -76,7 +77,6 @@ void MainWindow::initialize()
     _mainLayout = new QVBoxLayout(this);
     _pathLayout = new QHBoxLayout(this);
     _optionLayout = new QHBoxLayout(this);
-
 }
 
 void MainWindow::manageLayers()
@@ -85,12 +85,12 @@ void MainWindow::manageLayers()
     _pathLayout->addWidget(_browseBtn);
 
     _optionLayout->addWidget(_openFolderBtn);
-    _optionLayout->addWidget(_saveBtn);
+    _optionLayout->addWidget(_verifyBtn);
 
     _mainLayout->addLayout(_pathLayout);
-    _mainLayout->addWidget(_verifyBtn);
-    _mainLayout->addWidget(_resultLabel);
     _mainLayout->addLayout(_optionLayout);
+    _mainLayout->addWidget(_resultLabel);
+    _mainLayout->addWidget(_saveBtn);
 
     _central->setLayout(_mainLayout);
     setCentralWidget(_central);
@@ -99,10 +99,13 @@ void MainWindow::manageLayers()
 void MainWindow::manageMenu()
 {
     _quitAction = new QAction(tr("Quitter"), this);
-        _quitAction->setIcon(QIcon(":/img/logos/quit.png"));
+        _quitAction->setIcon(QIcon(":/img/icon/quit.png"));
         _quitAction->setShortcut(QKeySequence("Ctrl+Q"));
     _fileMenu = menuBar()->addMenu(tr("&Fichier"));
         _fileMenu->addAction(_quitAction);
+
+    _toolbar = addToolBar(tr("Fichier"));
+        _toolbar->addAction(_quitAction);
 }
 
 void MainWindow::manageConnect()
