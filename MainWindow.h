@@ -43,7 +43,7 @@ private:
     /**
      * @brief manageLayers
      */
-    void manageLayers();
+    void manageLayout();
 
     /**
      * @brief manageMenu
@@ -57,18 +57,19 @@ private:
 
     FileTest    *_fileTest = nullptr;
     QWidget     *_central = nullptr;
+    QHBoxLayout *_pathLayout = nullptr;
+    QHBoxLayout *_optionLayout = nullptr;
+    QVBoxLayout *_mainLayout = nullptr;
+
     QLineEdit   *_pathEdit = nullptr;
     QPushButton *_browseBtn = nullptr;
     QPushButton *_verifyBtn = nullptr;
     QPushButton *_saveBtn = nullptr;
     QPushButton *_openFolderBtn = nullptr;
     QLabel      *_resultLabel = nullptr;
-    QString     _path;
+    QString     _pathFolder;
     QString     _result;
 
-    QHBoxLayout *_pathLayout = nullptr;
-    QHBoxLayout *_optionLayout = nullptr;
-    QVBoxLayout *_mainLayout = nullptr;
 
     QMenu       *_fileMenu = nullptr;
     QToolBar    *_toolbar = nullptr;

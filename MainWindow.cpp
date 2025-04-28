@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     initialize();
-    manageLayers();
+    manageLayout();
     manageMenu();
     manageConnect();
 }
@@ -19,10 +19,10 @@ MainWindow::~MainWindow() {}
 
 void MainWindow::onBrowseBtn_clicked()
 {
-    _path = QFileDialog::getExistingDirectory(this, tr("Choisir un répertoire"));
-    if(!_path.isEmpty())
+    _pathFolder = QFileDialog::getExistingDirectory(this, tr("Choisir un répertoire"));
+    if(!_pathFolder.isEmpty())
     {
-        _pathEdit->setText(_path);
+        _pathEdit->setText(_pathFolder);
         _openFolderBtn->setHidden(false);
         _verifyBtn->setHidden(false);
     }
@@ -34,8 +34,7 @@ void MainWindow::onVerifyBtn_clicked()
     if(!path.isEmpty())
     {
         _fileTest = new FileTest(path, this);
-        _result = _fileTest->result();
-        _resultLabel->setText(_fileTest->result());
+        _resultLabel->setText(_fileTest->resultToPrint());
         _saveBtn->setHidden(false);
     }
 
@@ -52,16 +51,17 @@ void MainWindow::onSaveBtn_clicked()
 
 void MainWindow::onOpenFolderBtn_clicked()
 {
-    QDesktopServices::openUrl(QUrl(_path));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(_pathFolder));
 }
 
 void MainWindow::initialize()
 {
+    // WINDOW
     setWindowTitle(tr("QTOOL"));
     setWindowIcon(QIcon(":/img/icon/logo.png"));
     setFixedWidth(500);
 
-
+    // WIDGETS
     _pathEdit = new QLineEdit(this);
         _pathEdit->setPlaceholderText(tr("... lien du répertoire"));
     _browseBtn = new QPushButton(tr("Explorer"), this);
@@ -73,13 +73,14 @@ void MainWindow::initialize()
     _saveBtn = new QPushButton(tr("Sauvegarder"), this);
         _saveBtn->setHidden(true);
 
+    // LAYOUTS
     _central = new QWidget(this);
     _mainLayout = new QVBoxLayout(this);
     _pathLayout = new QHBoxLayout(this);
     _optionLayout = new QHBoxLayout(this);
 }
 
-void MainWindow::manageLayers()
+void MainWindow::manageLayout()
 {
     _pathLayout->addWidget(_pathEdit);
     _pathLayout->addWidget(_browseBtn);

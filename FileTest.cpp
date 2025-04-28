@@ -7,9 +7,8 @@ FileTest::FileTest(const QString &path, QWidget *parent)
     : QWidget(parent), _path(path)
 {
     setWindowTitle(tr("File test"));
-    _ext1 = "sldprt";
-    _ext2 = "slddrw";
-    _ext3 = "pdf";
+    _ext = {"sldprt", "slddrw", "pdf"};
+    _missingList.clear();
 
     _filePaths = FileUtility::ListFile(path, E_typelist::ABSOLUTPATH);
     if(addFileInGroup())
@@ -19,32 +18,27 @@ FileTest::FileTest(const QString &path, QWidget *parent)
     }
 }
 
-QString FileTest::result() const
+QString FileTest::resultToPrint() const
 {
-    return _result;
-}
+    QString result = "-- VERIFICATION DU REPERTOIRE : " + _path + " --\n";
 
-void FileTest::resultToPrint()
-{
-    _result = "-- VERIFICATION DU REPERTOIRE : " + _path + " --\n";
-    if(!_listOk.isEmpty())
+    result += "Liste des extensions testées : \n";
+    for(const QString &i : std::as_const(_ext))
     {
-        _result += "\n- Pièces complètes :\n";
-
-        for(const QString &ok : std::as_const(_listOk))
-        {
-            _result += ok + "\n";
-        }
+        result += "." + i + "\n";
     }
 
-    if(!_listNok.isEmpty())
+    if(_missingList.isEmpty())
+        result += "\n✅ Pas de fichiers manquants";
+    else
     {
-        _result += "\n- Pièces incomplètes :\n";
-        for(const QString &nOK : std::as_const(_listNok))
+        result += "\n❌ Fichiers manquants :\n";
+        for(const QString &nOK : std::as_const(_missingList))
         {
-            _result += nOK + "\n";
+            result += nOK + "\n";
         }
     }
+    return result;
 }
 
 bool FileTest::addFileInGroup()
@@ -56,7 +50,7 @@ bool FileTest::addFileInGroup()
         QString baseName = fileName.section("_", 0, 0);
         QString ext = fileInfo.suffix().toLower();
 
-        if(ext == _ext1 || ext == _ext2 || ext == _ext3)
+        if(ext == _ext.at(0) || ext == _ext.at(1) || ext == _ext.at(2))
         {
             _fileGroups[baseName].append(ext);
         }
@@ -74,16 +68,21 @@ void FileTest::compareFiles()
         const QString base = it.key();
         const QStringList &extensions = it.value();
 
-        if(extensions.contains(_ext1) && extensions.contains(_ext2) && extensions.contains(_ext3))
+
+        QStringList missingExtensions;
+
+        for(const QString &e : std::as_const(_ext))
         {
-            _listOk.append(base);
-        } else
+            if(!extensions.contains(e))
+                missingExtensions.append(e);
+        }
+
+        if (!missingExtensions.isEmpty())
         {
-            for(const QString &item : extensions)
+            for(const QString &ext : std::as_const(missingExtensions))
             {
-                _listNok.append(base + "." + item);
+                _missingList.append(base + "." + ext);
             }
-            _listNok.append("---");
         }
     }
 }

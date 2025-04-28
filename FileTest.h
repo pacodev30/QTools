@@ -12,16 +12,10 @@ public:
     FileTest(const QString &path, QWidget *parent);
 
     /**
-     * @brief result
-     * @return
-     */
-    QString result() const;
-
-    /**
      * @brief toPrint
      * @return
      */
-    void resultToPrint();
+    QString resultToPrint() const;
 
 private:
     /**
@@ -36,10 +30,9 @@ private:
 
     QVBoxLayout *_vBox = nullptr;
     QLabel      *_resultLabel = nullptr;
-    QStringList _listOk;
-    QStringList _listNok;
     QStringList _filePaths;
-    QString     _ext1, _ext2, _ext3;
+    QStringList _ext;
+    QStringList _missingList;
     QString     _path;
     QString     _result;
     QMap<QString,QStringList> _fileGroups;
